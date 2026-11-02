@@ -3,7 +3,7 @@
  * 例如 const REPO = "shiyin/shiyin-android";
  * 改完后，导航里的 GitHub 链接、下载页的「最新版本」和「下载按钮」会自动指向你的仓库。
  */
-const REPO = "YOUR_USERNAME/YOUR_REPO";
+const REPO = "yyx82717/shiyin";
 
 const GH = {
   url: () => `https://github.com/${REPO}`,

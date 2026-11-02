@@ -1,7 +1,7 @@
 {
   "versionCode": 15,
   "versionName": "1.6.0",
-  "apk": "https://github.com/USER/REPO/releases/download/v1.6.0/%E6%8B%BE%E9%9F%B3-ShiYin-1.6.0-release.apk",
+  "apk": "https://github.com/yyx82717/shiyin/releases/download/v1.6.0/ShiYin-1.6.0-release.apk",
   "notes": "自动更新（小圈子分发友好）：设置里填「更新源地址」，启动自动检查，发现更高版本才弹窗；下载走系统 DownloadManager（进度通知、断点续传，落应用私有目录），安装走系统安装器并经 FileProvider 分发；带 sha256 时严格校验，下错或被篡改直接拒装；支持「跳过此版本」与同天只查一次。",
   "size": 15080173,
   "sha256": "59187a90b6ee2da4d2b669fa3af29ff7600f21020a30f19cc0c2184b84fc8be8"

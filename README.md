@@ -10,8 +10,8 @@
 
 | 文件 | 说明 |
 | --- | --- |
-| `dist/拾音-ShiYin-1.6.0-release.apk` | **推荐安装这个**（不可调试，体积更小） |
-| `dist/拾音-ShiYin-1.6.0.apk` | debug 包（含调试信息，出问题时用这个抓日志） |
+| `dist/ShiYin-1.6.0-release.apk` | **推荐安装这个**（不可调试，体积更小） |
+| `dist/ShiYin-1.6.0.apk` | debug 包（含调试信息，出问题时用这个抓日志） |
 | `app/src/main/java/com/shiyin/player/` | 全部 Kotlin 源码 |
 | `tools/build_apk.sh` | 一行命令重新打包 |
 | `tools/setup_toolchain.py` | 自动下载 JDK17 + Android SDK + Gradle（已执行过） |
@@ -22,7 +22,7 @@
 ### 装到手机
 
 1. 把 APK 传到手机（微信/QQ/数据线都行），点开安装，允许「未知来源」。
-2. 或者用数据线：`adb install -r dist/拾音-ShiYin-1.6.0-release.apk`
+2. 或者用数据线：`adb install -r dist/ShiYin-1.6.0-release.apk`
 3. 首次打开会申请通知权限 —— 同意才能看到通知栏播放控制（拒绝也能正常播放）。
 4. 想听手机里的歌，到「设置 - 音源 - 本地音乐 - 授权并扫描」。
 
@@ -386,8 +386,8 @@ class MySource : MusicSource {
 
 ### 怎么部署
 
-1. 编译出新版：`dist/拾音-ShiYin-1.6.0-release.apk`（见第六章命令行编译）。
-2. 算 sha256（可选但建议）：`sha256sum 拾音-ShiYin-1.6.0-release.apk`。
+1. 编译出新版：`dist/ShiYin-1.6.0-release.apk`（见第六章命令行编译）。
+2. 算 sha256（可选但建议）：`sha256sum ShiYin-1.6.0-release.apk`。
 3. 把 apk 和写好的 `update.json` 放到同一 http 可访问目录——群晖 Web、AList 的 Web 根、对象存储 / 任意静态托管都行。
 4. App「设置 → 更新」里填那个目录地址（结尾加不加斜杠都行），打开「启动时自动检查」。
 5. 下次打开 App 自动检查到更高 `versionCode` 就弹窗；点「下载并更新」→「安装」即可。
