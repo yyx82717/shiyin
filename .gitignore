@@ -1,0 +1,32 @@
+.gradle/
+build/
+.toolchain/
+local.properties
+*.iml
+.idea/
+.DS_Store
+captures/
+.externalNativeBuild/
+.cxx/
+
+# === 发布产物：APK 走 GitHub Releases 分发，不进 git ===
+dist/
+*.apk
+
+# === 含密钥 / 个人信息的本地文件（不公开） ===
+# 百度网盘的 refresh_token 是一次性活令牌，泄露即失效且可被他人读你网盘
+tools/baidu_refresh_token.txt
+# 这两个脚本里硬编码了 AList 后台密码等凭据，仅本地保留
+tools/baidu_token.py
+tools/mount_baidu.py
+# 部署文档含后台密码与局域网 IP，仅本地保留
+AList-部署说明.md
+
+# === 日志 ===
+tools/*.log
+
+# === 构建缓存 ===
+.kotlin/
+
+# === 项目记忆（私人，勿公开） ===
+.workbuddy/

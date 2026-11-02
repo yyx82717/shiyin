@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>拾音 ShiYin · 把散落各处的音乐收进一个曲库</title>
+<meta name="description" content="拾音 ShiYin 是一款原生 Android 音乐播放器：本地音乐、百度网盘直连、自建 Subsonic、WebDAV 网盘、开放曲库五个来源统一成一个曲库。后台播放、专业音效、逐字歌词、自动更新，全部免费开源。" />
+<link rel="icon" type="image/svg+xml" href="assets/logo.svg" />
+<link rel="stylesheet" href="assets/styles.css" />
+</head>
+<body>
+
+<!-- 导航 -->
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a class="brand" href="index.html">
+      <img src="assets/logo.svg" alt="拾音" />
+      <span>拾音 <small>SHIYIN</small></span>
+    </a>
+    <nav class="nav-links" id="navLinks">
+      <a href="#features">功能</a>
+      <a href="#sources">音源</a>
+      <a href="#faq">常见问题</a>
+      <a href="download.html">下载</a>
+      <a class="btn btn-primary" data-gh="url" href="https://github.com" target="_blank" rel="noopener">GitHub</a>
+    </nav>
+    <button class="menu-toggle" id="menuToggle" aria-label="菜单">☰</button>
+  </div>
+</header>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="badge"><span class="dot"></span> 原生 Android · 免费开源 · v1.6.0</span>
+      <h1>把散落各处的音乐，<br /><span class="grad-text">收进一个曲库</span></h1>
+      <p class="lead">
+        本地音乐、百度网盘、自建服务器、WebDAV 网盘、开放曲库 —— 五个来源，
+        一个播放器统一搜索、统一播放。不抓取任何商业平台，只走合法通路。
+      </p>
+      <div class="hero-actions">
+        <a class="btn btn-primary btn-lg" href="download.html">免费下载</a>
+        <a class="btn btn-ghost btn-lg" data-gh="url" href="https://github.com" target="_blank" rel="noopener">在 GitHub 查看</a>
+      </div>
+      <div class="hero-meta">
+        <span><b>Android 7.0+</b> 可用</span>
+        <span><b>~14.4 MB</b> 安装包</span>
+        <span><b>5</b> 类音源合一</span>
+        <span><b>229</b> 个单元测试</span>
+      </div>
+    </div>
+
+    <!-- 手机播放器 Mockup -->
+    <div class="phone" aria-hidden="true">
+      <div class="phone-screen">
+        <div class="ps-cover"></div>
+        <div class="ps-title">拾音 ShiYin</div>
+        <div class="ps-artist">正在播放 · 本地曲库</div>
+        <div class="ps-lyric">灯光海里 谁把温柔 唱成了海</div>
+        <div class="ps-progress"></div>
+        <div class="ps-bar">
+          <div class="ps-ball">
+            <svg viewBox="0 0 24 24" width="38" height="38" fill="none" stroke="#9aa1b9" stroke-width="2"><path d="M11 3v18M3 12h8"/><circle cx="17" cy="8" r="3.2" fill="#8b5cf6" stroke="none"/><circle cx="17" cy="16" r="3.2" fill="#22d3ee" stroke="none"/></svg>
+          </div>
+          <div class="ps-play"></div>
+          <div class="ps-ball">
+            <svg viewBox="0 0 24 24" width="38" height="38" fill="none" stroke="#9aa1b9" stroke-width="2"><path d="M13 3v18M21 12h-8"/><circle cx="7" cy="8" r="3.2" fill="#8b5cf6" stroke="none"/><circle cx="7" cy="16" r="3.2" fill="#22d3ee" stroke="none"/></svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 核心亮点 -->
+<section id="features">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker">CORE</div>
+      <h2>一个播放器，装下你所有的音乐</h2>
+      <p>从搜得到、放得稳，到听得爽、更新省心，拾音把分散在各处的曲库真正打通。</p>
+    </div>
+    <div class="grid grid-3">
+      <div class="card">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#cdd2ea" stroke-width="2"><path d="M4 7h11M4 12h16M4 17h9"/><circle cx="18" cy="7" r="2"/><circle cx="21" cy="17" r="2"/></svg></div>
+        <h3>五源合一的曲库</h3>
+        <p>本地 / 百度网盘直连 / Subsonic 自建 / WebDAV 网盘 / 开放曲库，一次搜索跨所有源，结果分区标注来源。</p>
+      </div>
+      <div class="card">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#cdd2ea" stroke-width="2"><rect x="4" y="3" width="16" height="18" rx="3"/><path d="M9 18h6"/><path d="M12 7v5l3 2"/></svg></div>
+        <h3>后台与锁屏播放</h3>
+        <p>基于 Media3 MediaSession，退后台、锁屏、切 App 都不中断；通知栏与锁屏完整控制，来电或拔耳机自动暂停。</p>
+      </div>
+      <div class="card">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#cdd2ea" stroke-width="2"><path d="M4 12h2l2-7 4 14 3-9 2 3h3"/></svg></div>
+        <h3>专业播放内核</h3>
+        <p>10 段均衡器（31Hz–16kHz）、0.75–2.0× 变速不变调、睡眠定时、淡入淡出，自研 PCM 处理器不依赖设备自带。</p>
+      </div>
+      <div class="card">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#cdd2ea" stroke-width="2"><path d="M4 5h16v11H4z"/><path d="M4 5l8 6 8-6"/><path d="M9 20h6"/></svg></div>
+        <h3>歌词全都要</h3>
+        <p>逐字高亮、双语对照、TTML，本地同名 .lrc 自动读取，在线搜不到还能直接粘贴 LRC，跟着唱不漏字。</p>
+      </div>
+      <div class="card">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#cdd2ea" stroke-width="2"><path d="M5 5h14v10H5z"/><path d="M9 19h6M12 15v4"/><path d="M8 9h8M8 12h5"/></svg></div>
+        <h3>聪明的播放</h3>
+        <p>待播队列、拼音搜索、搜索历史、接着上次听、播放失败自动跳过——用过就回不去的细节。</p>
+      </div>
+      <div class="card">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#cdd2ea" stroke-width="2"><path d="M12 3v10M12 13a4 4 0 104 4"/><path d="M16 17l4 2V9l-4 2"/></svg></div>
+        <h3>装好就更新</h3>
+        <p>设置里填一个「更新源地址」，应用启动自动检查，发现更高版本才提示下载——绝不静默安装。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 五源详解 -->
+<section id="sources" style="padding-top:10px">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker">SOURCES</div>
+      <h2>五条合法音源通路</h2>
+      <p>不抓取 QQ 音乐 / 网易云 / 酷狗，而是把「你本来就有权听」的音乐，用合规方式统一进来。</p>
+    </div>
+    <div class="sources">
+      <div class="src"><span class="tag">本地</span><div><h4>本地音乐</h4><p>手机里所有 mp3 / flac / m4a / wav / ogg / ape，一次授权即可扫描；结果落盘快照，重开即出。</p></div></div>
+      <div class="src"><span class="tag">百度</span><div><h4>百度网盘 · 直连</h4><p>读你自己的网盘音乐目录，不需要 AList、不需要任何设备常开。手机就是客户端，整条链路无中间服务器。</p></div></div>
+      <div class="src"><span class="tag">自建</span><div><h4>自建曲库（Subsonic）</h4><p>你自己的完整收藏，放在 NAS / 树莓派 / 电脑上。填服务器地址 + 账号密码，密码不随请求发出。</p></div></div>
+      <div class="src"><span class="tag">网盘</span><div><h4>网盘音乐（WebDAV）</h4><p>坚果云、Nextcloud、群晖，或用 AList 把阿里云盘 / 夸克 / OneDrive 挂进来，填目录地址即可。</p></div></div>
+      <div class="src"><span class="tag">开放</span><div><h4>Audius / Jamendo</h4><p>开放授权曲库，无需任何配置，内置曲风推荐。只播你搜到的，不抓取任何商业平台音频。</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 信任声明 -->
+<section style="padding-top:10px">
+  <div class="wrap">
+    <div class="trust">
+      <h3>为什么不去「抓取全平台」？</h3>
+      <p>
+        抓取 QQ 音乐 / 网易云 / 酷狗的音频，属于绕过技术措施 + 侵犯信息网络传播权，非商业用途也不构成豁免。
+        拾音选择另一条干净的路：本地库、你自己的网盘、自建服务器、开放曲库——这五条都是你本来就有权的音乐。
+        搜不到的歌，只提供「跳到官方平台去听」的入口，绝不下载任何受版权保护的音频。
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- 下载 CTA -->
+<section>
+  <div class="wrap">
+    <div class="cta">
+      <h2>准备好统一你的曲库了吗？</h2>
+      <p>免费、开源、无广告。支持 Android 7.0 及以上。</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary btn-lg" href="download.html">前往下载页</a>
+        <a class="btn btn-ghost btn-lg" data-gh="releases" href="https://github.com" target="_blank" rel="noopener">GitHub Releases</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq" style="padding-top:10px">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker">FAQ</div>
+      <h2>常见问题</h2>
+    </div>
+    <div class="faq">
+      <details class="qa" open><summary>要钱吗？<span class="pm">+</span></summary><div class="ans">完全免费，开源（Apache-2.0）。没有内购、没有广告、没有会员墙。</div></details>
+      <details class="qa"><summary>支持哪些音源？<span class="pm">+</span></summary><div class="ans">本地音乐、百度网盘直连、自建 Subsonic 曲库、WebDAV 网盘（AList 等）、以及 Audius / Jamendo 开放曲库，共五类。详见上方「音源」一节。</div></details>
+      <details class="qa"><summary>百度网盘需要一直开电脑吗？<span class="pm">+</span></summary><div class="ans">不需要。百度网盘走的是官方直连通道，手机就是客户端，读的是你自己的网盘目录，没有任何需要常开的服务器（和 WebDAV 不同）。</div></details>
+      <details class="qa"><summary>安装时提示「未知来源」？<span class="pm">+</span></summary><div class="ans">这是 Android 的常规安全提示，因为安装包不是从应用商店来的。到设置里允许本次安装来源即可，应用本身不含任何越权行为。</div></details>
+      <details class="qa"><summary>以后更新方便吗？<span class="pm">+</span></summary><div class="ans">方便。在「设置 → 更新」里填好更新源地址（本仓库的 update.json），应用每次启动自动检查，发现更高版本才弹窗提示，绝不强装；带 sha256 时严格校验，篡改直接拒装。</div></details>
+      <details class="qa"><summary>我的账号密码安全吗？<span class="pm">+</span></summary><div class="ans">Subsonic / WebDAV 的密码只存在应用私有目录（DataStore），不上传任何服务器；百度授权走官方 OAuth 页面，密码不经过 App。</div></details>
+    </div>
+  </div>
+</section>
+
+<!-- 页脚 -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="foot-brand"><img src="assets/logo.svg" alt="拾音" /><span>拾音 ShiYin</span></div>
+        <p style="color:var(--muted);font-size:14px;margin-top:10px;max-width:300px">一款把分散曲库统一收拢的原生 Android 音乐播放器。</p>
+      </div>
+      <div class="foot-links">
+        <a href="download.html">下载</a>
+        <a href="#features">功能</a>
+        <a href="#sources">音源</a>
+        <a href="#faq">常见问题</a>
+        <a data-gh="url" href="https://github.com" target="_blank" rel="noopener">GitHub</a>
+        <a data-gh="issues" href="https://github.com" target="_blank" rel="noopener">反馈问题</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      拾音 ShiYin 不抓取任何商业音乐平台的音频文件，所有曲库内容均由用户自行提供。<br />
+      © 2026 拾音 ShiYin · 基于 Apache-2.0 协议开源 ·
+      <a data-gh="url" href="https://github.com" target="_blank" rel="noopener">项目主页</a>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/app.js"></script>
+</body>
+</html>

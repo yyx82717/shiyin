@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths>
+    <!-- 安装包下载目录：getExternalFilesDir(DIRECTORY_DOWNLOADS) 下的 updates/，
+         对应应用私有外部存储的 files/Download/updates。仅对该目录授权，不外泄其他文件。 -->
+    <external-files-path
+        name="updates"
+        path="Download/updates" />
+</paths>

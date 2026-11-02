@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>下载 拾音 ShiYin · 免费开源 Android 音乐播放器</title>
+<meta name="description" content="下载拾音 ShiYin Android 音乐播放器：本地音乐、百度网盘直连、自建服务器、WebDAV 网盘、开放曲库五源合一。支持 Android 7.0+，免费开源。" />
+<link rel="icon" type="image/svg+xml" href="assets/logo.svg" />
+<link rel="stylesheet" href="assets/styles.css" />
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a class="brand" href="index.html">
+      <img src="assets/logo.svg" alt="拾音" />
+      <span>拾音 <small>SHIYIN</small></span>
+    </a>
+    <nav class="nav-links" id="navLinks">
+      <a href="index.html#features">功能</a>
+      <a href="index.html#sources">音源</a>
+      <a href="index.html#faq">常见问题</a>
+      <a href="download.html">下载</a>
+      <a class="btn btn-primary" data-gh="url" href="https://github.com" target="_blank" rel="noopener">GitHub</a>
+    </nav>
+    <button class="menu-toggle" id="menuToggle" aria-label="菜单">☰</button>
+  </div>
+</header>
+
+<section class="dl-hero">
+  <div class="wrap">
+    <div class="dl-card">
+      <span class="dl-version" id="dlVersion">最新版本 <b>v1.6.0</b></span>
+      <h1>下载 拾音 ShiYin</h1>
+      <p class="sub">免费 · 开源 · 无广告 · 支持 Android 7.0 及以上</p>
+
+      <div class="dl-buttons">
+        <a class="btn btn-primary btn-lg" id="dlPrimaryBtn" href="https://github.com" target="_blank" rel="noopener">下载 v1.6.0（APK）</a>
+        <a class="btn btn-ghost btn-lg" href="CHANGELOG.md">查看更新日志</a>
+        <a class="btn btn-ghost btn-lg" data-gh="url" href="https://github.com" target="_blank" rel="noopener">在 GitHub 查看</a>
+      </div>
+
+      <div class="dl-meta">
+        <span>大小 <b id="dlSize">14.4 MB</b></span>
+        <span>发布 <b id="dlDate">2026-11-02</b></span>
+        <span>系统 <b>Android 7.0+</b></span>
+        <span>架构 <b>armeabi-v7a / arm64-v8a</b></span>
+      </div>
+
+      <p class="note" id="dlLatestNote" style="display:none;margin-top:18px;font-size:13px;color:var(--muted-2);border-left:2px solid var(--cyan);padding-left:12px">
+        自动获取「最新版」需要先在 <code>docs/assets/app.js</code> 第 6 行把 <code>REPO</code> 改成你的 GitHub 仓库名。当前显示的是 v1.6.0 的静态信息，下载按钮已指向 Releases 页面。
+      </p>
+    </div>
+  </div>
+</section>
+
+<section style="padding-top:10px">
+  <div class="wrap">
+    <div class="dl-cols">
+      <!-- 安装说明 -->
+      <div class="panel">
+        <h3>📲 安装步骤</h3>
+        <ol>
+          <li>点击上方「下载」按钮，把 <code>拾音-ShiYin-x.x.x-release.apk</code> 存到手机（微信/QQ 发的也行）。</li>
+          <li>在手机上点开 APK，按提示允许「未知来源」安装。</li>
+          <li>首次打开会申请通知权限——同意才能看到通知栏播放控制（拒绝也能正常播放）。</li>
+          <li>想听手机里的歌：到「设置 → 音源 → 本地音乐 → 授权并扫描」。</li>
+          <li>想接网盘 / 自建服务器：到「设置 → 音源」按提示填地址与账号。</li>
+        </ol>
+        <p class="note">
+          推荐安装 <code>release</code> 包（不可调试、体积更小）。另有 <code>debug</code> 包含调试信息，仅在需要抓日志排错时使用。
+        </p>
+      </div>
+
+      <!-- 自动更新 -->
+      <div class="panel">
+        <h3>🔄 开启自动更新</h3>
+        <ol>
+          <li>打开 App，进入「设置 → 更新」。</li>
+          <li>把「更新源地址」填成下面这行（仓库名会自动替换）：</li>
+        </ol>
+        <p><code id="updateSrc">https://raw.githubusercontent.com/USER/REPO/main/update.json</code></p>
+        <ol start="3">
+          <li>打开「启动时自动检查」。</li>
+          <li>以后只要在 GitHub 发布新版（Releases），并把仓库里的 <code>update.json</code> 同步改好，App 启动就会自动发现更高版本并提示下载——<b>绝不静默安装</b>。</li>
+        </ol>
+        <p class="note">
+          <code>update.json</code> 已在仓库根目录：发版时把里面的 <code>versionCode</code>、<code>versionName</code>、<code>apk</code>（填新版 release 资源的完整 URL）、<code>notes</code>、<code>size</code>、<code>sha256</code> 改好再提交即可。带 <code>sha256</code> 时 App 会严格校验，下错或被篡改直接拒装。
+        </p>
+      </div>
+    </div>
+
+    <div class="dl-cols" style="margin-top:20px">
+      <div class="panel">
+        <h3>⚙️ 系统要求</h3>
+        <ul>
+          <li><b>Android 7.0（API 24）及以上</b>。</li>
+          <li>拼音搜索依赖系统 ICU 音译器（Android 10+），更老的系统只是少这一项，其它照旧。</li>
+          <li>连接自建 / 网盘音源需要对应服务器或账号。</li>
+          <li>无需 Google 服务，纯离线也能播本地与已下载的歌。</li>
+        </ul>
+      </div>
+      <div class="panel">
+        <h3>🛠️ 自己编译</h3>
+        <ul>
+          <li>命令行：<code>bash tools/build_apk.sh assembleRelease</code>（本机工具链已配好）。</li>
+          <li>或用 Android Studio 打开工程直接 Run（需 Android 14/15 SDK）。</li>
+          <li>详细说明见仓库 <a data-gh="url" href="https://github.com" target="_blank" rel="noopener" style="color:var(--cyan)">README</a> 的「自己重新编译」一节。</li>
+          <li>上架应用商店前请换成你自己的签名（release 目前复用 debug 签名，方便直接安装）。</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="cta">
+      <h2>还不确定？先看看它都能干嘛</h2>
+      <p>五源合一、专业音效、逐字歌词、待播队列、拼音搜索……</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary btn-lg" href="index.html">回到官网首页</a>
+        <a class="btn btn-ghost btn-lg" data-gh="issues" href="https://github.com" target="_blank" rel="noopener">反馈问题</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="foot-brand"><img src="assets/logo.svg" alt="拾音" /><span>拾音 ShiYin</span></div>
+        <p style="color:var(--muted);font-size:14px;margin-top:10px;max-width:300px">一款把分散曲库统一收拢的原生 Android 音乐播放器。</p>
+      </div>
+      <div class="foot-links">
+        <a href="download.html">下载</a>
+        <a href="index.html#features">功能</a>
+        <a href="index.html#sources">音源</a>
+        <a href="index.html#faq">常见问题</a>
+        <a data-gh="url" href="https://github.com" target="_blank" rel="noopener">GitHub</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      拾音 ShiYin 不抓取任何商业音乐平台的音频文件，所有曲库内容均由用户自行提供。<br />
+      © 2026 拾音 ShiYin · 基于 Apache-2.0 协议开源
+    </div>
+  </div>
+</footer>
+
+<script src="assets/app.js"></script>
+<script>
+  // 下载页专属：把更新源地址里的仓库名自动替换（若已配置）
+  (function () {
+    var el = document.getElementById("updateSrc");
+    if (el && typeof REPO !== "undefined" && !REPO.includes("YOUR_USERNAME")) {
+      el.textContent = GH.raw("update.json");
+    }
+  })();
+</script>
+</body>
+</html>
