@@ -1,8 +1,8 @@
 {
-  "versionCode": 16,
-  "versionName": "1.7.0",
-  "apk": "https://github.com/yyx82717/shiyin/releases/download/v1.7.0/ShiYin-1.7.0-release.apk",
-  "notes": "曲库扩充：新增 Internet Archive 音源（公有领域 / CC，免密钥默认启用，搜不到时的补充）；搜索跨源按「歌名·歌手」归并排序，同歌不再重复显示；搜不到时给出引导（列出已搜音源、提示连更多源 / 导入 M3U 歌单）。237 个单元测试全过。",
+  "versionCode": 17,
+  "versionName": "1.7.1",
+  "apk": "https://github.com/yyx82717/shiyin/releases/download/v1.7.1/ShiYin-1.7.1-release.apk",
+  "notes": "修复「检查不到更新」：更新源地址现在兼容「填目录」和「填完整文件路径」两种写法（此前只接受目录，填了完整 update.json 会被再拼一次导致 404）。下载页已改为只展示目录形式并附国内更稳的 jsDelivr 镜像。",
   "size": 15096557,
-  "sha256": "5a0d1533adf73dea0979449b01177271c9aaf57bac08a3e1981155f05828ef35"
+  "sha256": "810407ced8a987ec0071360c67ad50b7acfc90eb1a0f23f0590815333d49adbb"
 }

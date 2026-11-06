@@ -21,6 +21,20 @@ class UpdateCheckerTest {
     }
 
     @Test
+    fun `目录形式自动补 update_json`() {
+        var hit: String? = null
+        UpdateChecker.fetch("https://x.com/shiyin/") { hit = it; json }
+        assertEquals("https://x.com/shiyin/update.json", hit)
+    }
+
+    @Test
+    fun `完整文件路径不再重复拼接`() {
+        var hit: String? = null
+        UpdateChecker.fetch("https://x.com/shiyin/update.json") { hit = it; json }
+        assertEquals("https://x.com/shiyin/update.json", hit)
+    }
+
+    @Test
     fun `空 baseUrl 直接返回 null`() {
         assertNull(UpdateChecker.fetch("   ") { json })
     }

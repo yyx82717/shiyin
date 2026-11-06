@@ -77,12 +77,16 @@
         <h3>🔄 开启自动更新</h3>
         <ol>
           <li>打开 App，进入「设置 → 更新」。</li>
-          <li>把「更新源地址」填成下面这行（仓库名会自动替换）：</li>
+          <li>把「更新源地址」填成下面这行<b>目录</b>（注意：只填到 <code>main</code>，<b>不要</b>带 <code>/update.json</code>，App 会自动补）：</li>
         </ol>
-        <p><code id="updateSrc">https://raw.githubusercontent.com/yyx82717/shiyin/main/update.json</code></p>
+        <p><code id="updateSrc">https://raw.githubusercontent.com/yyx82717/shiyin/main</code></p>
+        <p class="note">
+          国内访问 raw.githubusercontent.com 偶尔不稳，可改填 <b>jsDelivr 镜像</b>（更稳）：<br>
+          <code>https://cdn.jsdelivr.net/gh/yyx82717/shiyin@main</code>
+        </p>
         <ol start="3">
           <li>打开「启动时自动检查」。</li>
-          <li>以后只要在 GitHub 发布新版（Releases），并把仓库里的 <code>update.json</code> 同步改好，App 启动就会自动发现更高版本并提示下载——<b>绝不静默安装</b>。</li>
+          <li>以后只要在 GitHub 发布新版（Releases），并把仓库里的 <code>update.json</code> 同步改好，App 启动就会自动发现更高版本并提示下载——<b>绝不静默安装</b>。（App 已兼容「填目录」和「填完整文件路径」两种写法，二选一即可。）</li>
         </ol>
         <p class="note">
           <code>update.json</code> 已在仓库根目录：发版时把里面的 <code>versionCode</code>、<code>versionName</code>、<code>apk</code>（填新版 release 资源的完整 URL）、<code>notes</code>、<code>size</code>、<code>sha256</code> 改好再提交即可。带 <code>sha256</code> 时 App 会严格校验，下错或被篡改直接拒装。
@@ -154,7 +158,8 @@
   (function () {
     var el = document.getElementById("updateSrc");
     if (el && typeof REPO !== "undefined" && !REPO.includes("YOUR_USERNAME")) {
-      el.textContent = GH.raw("update.json");
+      // 填「目录」即可，App 会自动补 /update.json（不要直接给完整文件路径）
+      el.textContent = "https://raw.githubusercontent.com/" + REPO + "/main";
     }
   })();
 </script>

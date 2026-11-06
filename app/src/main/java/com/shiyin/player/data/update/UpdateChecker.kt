@@ -27,7 +27,11 @@ object UpdateChecker {
     ): UpdateInfo? {
         val trimmed = baseUrl.trim().trimEnd('/')
         if (trimmed.isEmpty()) return null
-        val url = "$trimmed/update.json"
+        // 兼容两种填法，避免「填了完整文件路径却被再拼一次 /update.json 导致 404」：
+        //   - 目录（推荐）：https://example.com/shiyin            → 补 /update.json
+        //   - 完整文件：    https://example.com/shiyin/update.json → 直接用
+        val url = if (trimmed.endsWith(".json", ignoreCase = true)) trimmed
+                  else "$trimmed/update.json"
         val raw = runCatching { fetcher(url) }.getOrNull() ?: return null
         val info = runCatching { AppJson.decodeFromString(UpdateInfo.serializer(), raw) }.getOrNull()
             ?: return null
