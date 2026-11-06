@@ -4,6 +4,7 @@ import android.content.Context
 import com.shiyin.player.data.local.LocalLibraryStore
 import com.shiyin.player.data.local.SettingsStore
 import com.shiyin.player.data.model.Track
+import com.shiyin.player.data.source.ArchiveSource
 import com.shiyin.player.data.source.AudiusSource
 import com.shiyin.player.data.source.BaiduSource
 import com.shiyin.player.data.source.JamendoSource
@@ -24,6 +25,7 @@ class MusicRepository(
 ) {
 
     private val audius = AudiusSource()
+    private val archive = ArchiveSource()
     private val jamendo = JamendoSource { settings.jamendoId() }
     private val local = LocalSource(context)
     private val subsonic = SubsonicSource { settings.subsonicConfig() }
@@ -40,9 +42,9 @@ class MusicRepository(
         source.feed(genre, PAGE_SIZE)
     }
 
-    suspend fun search(query: String): Result<List<Track>> = collect(searchSources()) { source ->
-        source.search(query, PAGE_SIZE)
-    }
+    suspend fun search(query: String): Result<List<Track>> =
+        collect(searchSources()) { source -> source.search(query, PAGE_SIZE) }
+            .map { mergeAndRank(it, query) }
 
     /** 本地音乐全量列表，供「我的 - 本地」使用。 */
     suspend fun localTracks(force: Boolean = false): List<Track> = local.all(force)
@@ -151,7 +153,7 @@ class MusicRepository(
     }
 
     private suspend fun remoteSources(): List<MusicSource> {
-        val list = mutableListOf<MusicSource>(audius)
+        val list = mutableListOf<MusicSource>(audius, archive)
         if (settings.jamendoId().isNotBlank()) list += jamendo
         return list
     }
@@ -185,7 +187,67 @@ class MusicRepository(
         return Result.success(merged.distinctBy { it.id })
     }
 
+    /**
+     * 本次搜索实际会纳入哪些音源（按当前配置与权限）。
+     * 给搜索页「没找到」时的引导卡片用：告诉用户已经搜了哪些、还能连哪些。
+     */
+    suspend fun searchCoverage(): List<String> {
+        val labels = mutableListOf("Audius", "Internet Archive")
+        if (settings.jamendoId().isNotBlank()) labels += "Jamendo"
+        if (settings.isLocalEnabled() && local.hasPermission()) labels += "本地"
+        if (settings.subsonicConfig() != null) labels += "自建服务器"
+        if (settings.webdavConfig() != null) labels += "WebDAV 网盘"
+        if (settings.baiduConfig() != null) labels += "百度网盘"
+        return labels
+    }
+
     companion object {
         private const val PAGE_SIZE = 30
+
+        /**
+         * 跨源归并 + 相关度排序。
+         *
+         * 之前只按 track.id 去重，而每个源的 id 是各自命名空间（audius:xxx / local:xxx），
+         * 导致同一首歌若同时出现在本地和网盘会显示两遍、且无法按歌名归并。
+         * 这里按「歌名·歌手」归一化后归并，本地/已配云源优先、免费开放曲库兜底；
+         * 再按与 query 的匹配位置打分排序，让最相关的排在最前。
+         *
+         * 抽成 companion 的 internal 方法，便于 JVM 单元测试直接覆盖（见 SearchMergeTest）。
+         */
+        internal fun mergeAndRank(tracks: List<Track>, query: String): List<Track> {
+            val priority = mapOf(
+                "local" to 0, "baidu" to 1, "webdav" to 2,
+                "subsonic" to 3, "jamendo" to 4, "audius" to 5, "archive" to 6,
+            )
+            val merged = LinkedHashMap<String, Track>()
+            for (t in tracks) {
+                val key = normalizeKey(t.title, t.artist)
+                val existing = merged[key]
+                if (existing == null || (priority[t.source] ?: 9) < (priority[existing.source] ?: 9)) {
+                    merged[key] = t
+                }
+            }
+            val q = query.trim().lowercase()
+            return merged.values.map { t ->
+                val title = t.title.lowercase()
+                val artist = t.artist.lowercase()
+                val score = when {
+                    q.isBlank() -> 0
+                    title == q -> 100
+                    title.startsWith(q) -> 80
+                    title.contains(q) -> 60
+                    artist == q -> 50
+                    artist.contains(q) -> 35
+                    else -> 10
+                }
+                t to score
+            }.sortedByDescending { it.second }.map { it.first }
+        }
+
+        internal fun normalizeKey(title: String, artist: String): String {
+            val t = title.lowercase().replace(Regex("[\\s\\p{P}]+"), "")
+            val a = artist.lowercase().replace(Regex("[\\s\\p{P}]+"), "")
+            return "$t·$a"
+        }
     }
 }

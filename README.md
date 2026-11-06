@@ -33,7 +33,7 @@
 ## 二、功能
 
 - **发现**：顶部是 **10 张内置华语风格专辑**（国风、民谣、摇滚、粤语经典、影视原声、都市情歌、KTV、独立新声、说唱、童年校园，共 118 首），不联网也能看；下面是开放曲库的曲风推荐（电子/嘻哈/低保真/氛围/浩室/爵士/摇滚/古典/流行）。
-- **搜索**：输入即搜（420 ms 防抖），**先查内置华语精选，再查本地库 + 自建服务器 + 网盘 + 开放曲库**，结果分区显示并标注来源；搜不到时可一键跳到官方平台。
+- **搜索**：输入即搜（420 ms 防抖），**先查内置华语精选，再查本地库 + 自建服务器 + 网盘 + 开放曲库（含 Internet Archive）**；多源结果按「歌名·歌手」跨源归并（本地优先、免费曲库兜底）并按相关度排序，结果分区显示、标注来源；**搜不到时给出引导卡片**——列出本次已搜的音源、提示去设置连更多源或导入歌单，也能一键跳到官方平台。
 - **拼音搜索**：不用切输入法。打 `zjl` 出周杰伦、`dfp` 出东风破、`jielun` 也能中（首字母前缀 > 首字母包含 > 全拼包含，三档排序）。转换用系统自带的 ICU 音译器（需要 Android 10 及以上，更老的系统只是少这一项，别的照旧），不额外打包几百 KB 的拼音表；结果单列一段「拼音匹配」，不会和网盘、开放曲库混在一起。
 - **搜索历史**：写进搜索框却没搜到的半截词不算；空搜索时列出最近 12 条，点一下复搜，也能一键清空。
 - **我的**：歌单 / 收藏 / 最近播放 / **本地曲库** / **已下载** / **网盘** / **百度网盘**，七个 tab；本地库支持「只看华语」和删除原文件，网盘页展示 WebDAV 扫到的全部歌曲，百度网盘页是直连的结果。
@@ -68,7 +68,7 @@
 | **百度网盘（直连）** | 你自己网盘里的音乐目录，**不需要 AList、不需要任何设备常开** | 「一键授权登录」点一下就行，见下方「百度网盘直连」 |
 | **自建曲库（Subsonic）** | 你自己的完整音乐收藏，放在 NAS / 树莓派 / 电脑上 | 填服务器地址 + 账号密码，见下方示例 |
 | **网盘音乐（WebDAV）** | 坚果云、Nextcloud、群晖，或用 AList 把阿里云盘 / 夸克 / OneDrive 挂进来 | 填 WebDAV 目录地址 + 账号 |
-| **Audius / Jamendo** | 开放授权曲库，无需任何配置 | 内置 / 填 client_id |
+| **Audius / Jamendo / Internet Archive** | 开放授权与公有领域曲库，无需任何配置 | 内置（Archive、Audius 免密钥；Jamendo 填 client_id） |
 
 > 百度网盘没有 WebDAV，所以它**不在 WebDAV 那一栏**。填了也连不上，去看「百度网盘 · 直连」。
 
@@ -201,6 +201,8 @@ app/src/main/java/com/shiyin/player/
 │   │   ├── DavXml.kt             multistatus 解析 + 文件名拆分（纯函数，可测）
 │   │   ├── AudiusSource.kt       开放曲库（网络层）
 │   │   ├── AudiusJson.kt         响应解析（纯函数，可测）
+│   │   ├── ArchiveSource.kt      Internet Archive 公有领域曲库（网络层）
+│   │   ├── ArchiveJson.kt        identifier / metadata 解析（纯函数，可测）
 │   │   └── JamendoSource.kt      CC 授权曲库
 │   ├── curated/
 │   │   ├── CuratedCatalog.kt     内置 10 张华语风格专辑（只有元数据，不含音频/歌词）
@@ -249,7 +251,9 @@ app/src/test/java/com/shiyin/player/    单元测试（JVM，不需要设备）
 ├── data/source/DavXmlTest.kt
 ├── data/source/SubsonicJsonTest.kt
 ├── data/source/AudiusJsonTest.kt
+├── data/source/ArchiveJsonTest.kt
 ├── data/source/JamendoTagsTest.kt
+├── data/repository/SearchMergeTest.kt
 └── data/download/DownloadNamingTest.kt
 ```
 
@@ -283,7 +287,7 @@ bash tools/build_apk.sh assembleRelease
 bash tools/build_apk.sh test
 ```
 
-129 个用例，覆盖 LRC 解析、WebDAV XML、Subsonic/Audius JSON、URL 拼装、MD5 token、下载命名、
+237 个用例，覆盖 LRC 解析、WebDAV XML、Subsonic/Audius/Archive JSON、URL 拼装、MD5 token、下载命名、跨源搜索归并、
 歌单去重与默认列表、华语专辑数据完整性、歌名归一化匹配、歌词候选解析、本地快照序列化、
 网盘旁挂歌词的 URL 推算（含中文百分号编码、查询串剥离、隐藏文件名等边界）、
 快照新鲜度判断（阈值边界、时钟回拨）、百度直连的 URL 构造与脏文件名拆分、

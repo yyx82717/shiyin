@@ -42,6 +42,10 @@ class SearchViewModel(app: Application) : AndroidViewModel(app) {
     var error by mutableStateOf<String?>(null)
         private set
 
+    /** 本次搜索实际纳入的音源标签，供「没找到」时的引导卡片展示。 */
+    var searchedSources by mutableStateOf<List<String>>(emptyList())
+        private set
+
     /** 内置华语曲库里的命中，本地查，不走网络。 */
     var curatedHits by mutableStateOf<List<CuratedHit>>(emptyList())
         private set
@@ -149,6 +153,8 @@ class SearchViewModel(app: Application) : AndroidViewModel(app) {
     private suspend fun runSearch(keyword: String) {
         loading = true
         error = null
+        // 本次实际会搜哪些源，供空结果引导卡片展示（配置不会在搜索中途变化）
+        searchedSources = runCatching { repository.searchCoverage() }.getOrDefault(emptyList())
         // 只在真的发出请求时记一笔，防抖期间的半截词不算
         runCatching { ShiYinApp.instance.settings.pushSearchHistory(keyword) }
         repository.search(keyword)

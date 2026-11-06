@@ -14,6 +14,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
@@ -24,6 +26,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
@@ -328,16 +331,17 @@ fun SearchScreen(
                         )
                     }
                 }
+            }
 
-                vm.error != null && vm.curatedHits.isEmpty() -> item {
-                    Column {
-                        MessageBox(
-                            title = "没有结果",
-                            subtitle = vm.error,
-                            actionText = "重试",
-                            onAction = { vm.retry() },
-                        )
-                    }
+            // ---- 全空引导：告诉用户搜了哪些源、还能连哪些 ----
+            if (!vm.loading && vm.results.isEmpty() && vm.curatedHits.isEmpty() && vm.pinyinHits.isEmpty()) {
+                item {
+                    EmptySearchGuide(
+                        query = vm.query,
+                        searched = vm.searchedSources,
+                        error = vm.error,
+                        onRetry = { vm.retry() },
+                    )
                 }
             }
 
@@ -360,4 +364,65 @@ private fun Divider() {
             .height(1.dp)
             .background(MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.12f)),
     )
+}
+
+/**
+ * 「什么都没搜到」时的引导卡片。
+ *
+ * 之前空状态只甩一句「没有结果」+ 重试，用户不知道问题出在哪——
+ * 是他没连网盘？还是这个词本就不在这几个源里？
+ * 现在把它说清楚：列出本次实际纳入搜索的音源，并提示还能在设置里连更多源 / 导入歌单。
+ */
+@Composable
+private fun EmptySearchGuide(
+    query: String,
+    searched: List<String>,
+    error: String?,
+    onRetry: () -> Unit,
+) {
+    Column(Modifier.fillMaxWidth().padding(horizontal = 20.dp, vertical = 16.dp)) {
+        if (error != null) {
+            Text(
+                "搜索出错了",
+                color = MaterialTheme.colorScheme.onBackground,
+                fontSize = 15.sp,
+                fontWeight = FontWeight.SemiBold,
+            )
+            Spacer(Modifier.height(6.dp))
+            Text(
+                error,
+                color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.85f),
+                fontSize = 12.sp,
+                lineHeight = 16.sp,
+            )
+        } else {
+            Text(
+                "没有找到「$query」",
+                color = MaterialTheme.colorScheme.onBackground,
+                fontSize = 15.sp,
+                fontWeight = FontWeight.SemiBold,
+            )
+            Spacer(Modifier.height(6.dp))
+            Text(
+                "已经在这些音源里找过了：",
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                fontSize = 12.sp,
+            )
+        }
+        Spacer(Modifier.height(10.dp))
+        if (searched.isNotEmpty()) {
+            LazyRow(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                items(searched) { label -> PillChip(label, false) {} }
+            }
+        }
+        Spacer(Modifier.height(12.dp))
+        Text(
+            "曲库由你自己的文件、网盘和开放曲库组成。想搜到更多？在「设置」里连接百度网盘 / WebDAV / 自建服务器，或导入 M3U 歌单。",
+            color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.8f),
+            fontSize = 11.sp,
+            lineHeight = 16.sp,
+        )
+        Spacer(Modifier.height(10.dp))
+        TextButton(onClick = onRetry) { Text("重试") }
+    }
 }
